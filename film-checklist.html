@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IB Film Textual Analysis: Final Check</title>
+<style>
+  :root {
+    --bg: #0f1419;
+    --card: #1a2027;
+    --border: #2a3038;
+    --text: #e8ecef;
+    --muted: #8b95a1;
+    --accent: #4a9eff;
+    --good: #4ade80;
+    --warn: #fbbf24;
+    --bad: #f87171;
+    --cultural: #5eead4;
+    --elements: #d8b4fe;
+    --relationships: #c4b5fd;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 24px 16px 64px;
+    line-height: 1.5;
+  }
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .progress-wrap {
+    margin-top: 16px;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.3s;
+  }
+  .question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .q-text {
+    font-size: 16px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .criteria-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 6px;
+    font-weight: 600;
+  }
+  .tag-a { background: rgba(94, 234, 212, 0.15); color: var(--cultural); }
+  .tag-b { background: rgba(216, 180, 254, 0.15); color: var(--elements); }
+  .tag-c { background: rgba(196, 181, 253, 0.15); color: var(--relationships); }
+
+  /* Toggle */
+  .toggle-group {
+    display: flex;
+    gap: 8px;
+  }
+  .toggle-btn {
+    flex: 1;
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .toggle-btn:hover { border-color: var(--accent); }
+  .toggle-btn.active-yes {
+    background: rgba(74, 222, 128, 0.15);
+    border-color: var(--good);
+    color: var(--good);
+  }
+  .toggle-btn.active-no {
+    background: rgba(248, 113, 113, 0.15);
+    border-color: var(--bad);
+    color: var(--bad);
+  }
+
+  /* Number input */
+  .num-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+  }
+  .num-input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  /* Slider */
+  .slider-wrap { padding: 4px 0; }
+  .slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background: linear-gradient(to right, #fb923c 0%, #fbbf24 33%, #4ade80 66%, #3b82f6 100%);
+    border-radius: 4px;
+    outline: none;
+  }
+  .slider-ticks {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .slider-ticks span {
+    flex: 1;
+    text-align: center;
+  }
+  .slider-ticks span:first-child { text-align: left; }
+  .slider-ticks span:last-child { text-align: right; }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid var(--bg);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.2);
+  }
+  .slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid var(--bg);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.2);
+  }
+  .slider-score {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .slider-band {
+    margin-top: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+  .band-1 { color: #fb923c; }
+  .band-2 { color: #fbbf24; }
+  .band-3 { color: #4ade80; }
+  .band-4 { color: #3b82f6; }
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .slider-current {
+    margin-top: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    text-align: center;
+  }
+
+  /* Feedback */
+  .feedback {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.good {
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    color: #86efac;
+  }
+  .feedback.warn {
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    color: #fcd34d;
+  }
+  .feedback.bad {
+    background: rgba(248, 113, 113, 0.1);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    color: #fca5a5;
+  }
+
+  /* Summary */
+  .summary {
+    margin-top: 32px;
+    padding: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .summary h2 {
+    margin: 0 0 16px;
+    font-size: 20px;
+  }
+  .summary-section {
+    margin-bottom: 16px;
+  }
+  .summary-section h3 {
+    font-size: 14px;
+    margin: 0 0 8px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .summary-list {
+    margin: 0;
+    padding-left: 20px;
+  }
+  .summary-list li {
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+  .summary-list li.done { color: var(--good); }
+  .summary-list li.todo { color: var(--warn); }
+  .reset-btn {
+    margin-top: 16px;
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .reset-btn:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>IB Film Textual Analysis</h1>
+    <div class="subtitle">Final Check Before Submission</div>
+    <div class="progress-wrap"><div class="progress-bar" id="progress"></div></div>
+  </header>
+
+  <!-- Q1 -->
+  <div class="question" data-q="1">
+    <div class="q-num">Question 1: Formatting</div>
+    <div class="q-text">Is the title of the film clearly listed at the top of the page?</div>
+    <div class="toggle-group">
+      <button class="toggle-btn" data-val="yes">Yes</button>
+      <button class="toggle-btn" data-val="no">No</button>
+    </div>
+    <div class="feedback" id="fb1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question" data-q="2">
+    <div class="q-num">Question 2: Formatting</div>
+    <div class="q-text">Is the time code of your extract clearly listed at the top of the page?</div>
+    <div class="toggle-group">
+      <button class="toggle-btn" data-val="yes">Yes</button>
+      <button class="toggle-btn" data-val="no">No</button>
+    </div>
+    <div class="feedback" id="fb2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question" data-q="3">
+    <div class="q-num">Question 3: Formatting</div>
+    <div class="q-text">Is your word count clearly labeled at the top of the page?</div>
+    <div class="toggle-group">
+      <button class="toggle-btn" data-val="yes">Yes</button>
+      <button class="toggle-btn" data-val="no">No</button>
+    </div>
+    <div class="feedback" id="fb3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question" data-q="4">
+    <div class="q-num">Question 4: Word Count</div>
+    <div class="q-text">What is your word count?</div>
+    <input type="number" class="num-input" id="wordcount" placeholder="Enter your word count..." min="0" max="3000">
+    <div class="feedback" id="fb4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question" data-q="5">
+    <div class="q-num">Question 5 <span class="criteria-tag tag-a">Criterion A</span></div>
+    <div class="q-text">How would you describe your understanding and articulation of the cultural context?</div>
+    <div class="slider-wrap">
+      <input type="range" min="1" max="8" value="4" class="slider" id="s5">
+      <div class="slider-ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+      <div class="slider-labels">
+        <span>Limited</span><span>Adequate</span><span>Good</span><span>Excellent</span>
+      </div>
+      <div class="slider-score" id="s5-score">Score: 4 / 8</div>
+      <div class="slider-band" id="s5-band">Adequate</div>
+    </div>
+    <div class="feedback" id="fb5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="question" data-q="6">
+    <div class="q-num">Question 6 <span class="criteria-tag tag-a">Criterion A</span></div>
+    <div class="q-text">To what extent do you have carefully curated sources for the cultural context?</div>
+    <div class="slider-wrap">
+      <input type="range" min="1" max="8" value="4" class="slider" id="s6">
+      <div class="slider-ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+      <div class="slider-labels">
+        <span>Limited</span><span>Adequate</span><span>Good</span><span>Excellent</span>
+      </div>
+      <div class="slider-score" id="s6-score">Score: 4 / 8</div>
+      <div class="slider-band" id="s6-band">Adequate</div>
+    </div>
+    <div class="feedback" id="fb6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="question" data-q="7">
+    <div class="q-num">Question 7 <span class="criteria-tag tag-b">Criterion B</span><span class="criteria-tag tag-c">Criterion C</span></div>
+    <div class="q-text">To what extent do you have carefully curated sources that have helped you understand how the film creates meaning through its use of film language and elements?</div>
+    <div class="slider-wrap">
+      <input type="range" min="1" max="8" value="4" class="slider" id="s7">
+      <div class="slider-ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+      <div class="slider-labels">
+        <span>Limited</span><span>Adequate</span><span>Good</span><span>Excellent</span>
+      </div>
+      <div class="slider-score" id="s7-score">Score: 4 / 8</div>
+      <div class="slider-band" id="s7-band">Adequate</div>
+    </div>
+    <div class="feedback" id="fb7"></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="question" data-q="8">
+    <div class="q-num">Question 8 <span class="criteria-tag tag-b">Criterion B</span></div>
+    <div class="q-text">To what extent did you evaluate how the extract makes use of film elements to create meaning?</div>
+    <div class="slider-wrap">
+      <input type="range" min="1" max="12" value="6" class="slider" id="s8">
+      <div class="slider-ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span></div>
+      <div class="slider-labels">
+        <span>Lists</span><span>Outlines</span><span>Explains</span><span>Evaluates</span>
+      </div>
+      <div class="slider-score" id="s8-score">Score: 6 / 12</div>
+      <div class="slider-band" id="s8-band">Outlines</div>
+    </div>
+    <div class="feedback" id="fb8"></div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="question" data-q="9">
+    <div class="q-num">Question 9 <span class="criteria-tag tag-c">Criterion C</span></div>
+    <div class="q-text">To what extent did you demonstrate how the identified film elements relate to the cultural context of the film?</div>
+    <div class="slider-wrap">
+      <input type="range" min="1" max="8" value="4" class="slider" id="s9">
+      <div class="slider-ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+      <div class="slider-labels">
+        <span>Limited</span><span>Adequate</span><span>Good</span><span>Excellent</span>
+      </div>
+      <div class="slider-score" id="s9-score">Score: 4 / 8</div>
+      <div class="slider-band" id="s9-band">Adequate</div>
+    </div>
+    <div class="feedback" id="fb9"></div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="question" data-q="10">
+    <div class="q-num">Question 10 <span class="criteria-tag tag-c">Criterion C</span></div>
+    <div class="q-text">To what extent did you demonstrate how the film elements create meaning in relationship to each other?</div>
+    <div class="slider-wrap">
+      <input type="range" min="1" max="8" value="4" class="slider" id="s10">
+      <div class="slider-ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+      <div class="slider-labels">
+        <span>Limited</span><span>Adequate</span><span>Good</span><span>Excellent</span>
+      </div>
+      <div class="slider-score" id="s10-score">Score: 4 / 8</div>
+      <div class="slider-band" id="s10-band">Adequate</div>
+    </div>
+    <div class="feedback" id="fb10"></div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="question" data-q="11">
+    <div class="q-num">Question 11 <span class="criteria-tag tag-c">Criterion C</span></div>
+    <div class="q-text">To what extent did you demonstrate how the meaning created with film language in the extract connects to the chosen film text as a whole? Where appropriate, this can also include connections to other film texts, but this is not necessary.</div>
+    <div class="slider-wrap">
+      <input type="range" min="1" max="8" value="4" class="slider" id="s11">
+      <div class="slider-ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+      <div class="slider-labels">
+        <span>Limited</span><span>Adequate</span><span>Good</span><span>Excellent</span>
+      </div>
+      <div class="slider-score" id="s11-score">Score: 4 / 8</div>
+      <div class="slider-band" id="s11-band">Adequate</div>
+    </div>
+    <div class="feedback" id="fb11"></div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="question" data-q="12">
+    <div class="q-num">Question 12: Formatting</div>
+    <div class="q-text">Is your paper in a 12 point sans serif font?</div>
+    <div class="toggle-group">
+      <button class="toggle-btn" data-val="yes">Yes</button>
+      <button class="toggle-btn" data-val="no">No</button>
+    </div>
+    <div class="feedback" id="fb12"></div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="question" data-q="13">
+    <div class="q-num">Question 13: Sources</div>
+    <div class="q-text">Have you listed all of your sources?</div>
+    <div class="toggle-group">
+      <button class="toggle-btn" data-val="yes">Yes</button>
+      <button class="toggle-btn" data-val="no">No</button>
+    </div>
+    <div class="feedback" id="fb13"></div>
+  </div>
+
+  <!-- Q14 -->
+  <div class="question" data-q="14">
+    <div class="q-num">Question 14: Citations</div>
+    <div class="q-text">Does your TA have in-text citations for every source referenced in the body?</div>
+    <div class="toggle-group">
+      <button class="toggle-btn" data-val="yes">Yes</button>
+      <button class="toggle-btn" data-val="no">No</button>
+    </div>
+    <div class="feedback" id="fb14"></div>
+  </div>
+
+  <!-- Q15 -->
+  <div class="question" data-q="15">
+    <div class="q-num">Question 15: Images</div>
+    <div class="q-text">Have you clearly labeled your images with simple captions (such as fig.1)?</div>
+    <div class="toggle-group">
+      <button class="toggle-btn" data-val="yes">Yes</button>
+      <button class="toggle-btn" data-val="no">No</button>
+    </div>
+    <div class="feedback" id="fb15"></div>
+  </div>
+
+  <!-- Q16 -->
+  <div class="question" data-q="16">
+    <div class="q-num">Question 16: Anonymity</div>
+    <div class="q-text">Is your name anywhere on the paper? For IB anonymity, your name should NOT appear on the document.</div>
+    <div class="toggle-group">
+      <button class="toggle-btn" data-val="yes">Yes</button>
+      <button class="toggle-btn" data-val="no">No</button>
+    </div>
+    <div class="feedback" id="fb16"></div>
+  </div>
+
+  <!-- Q17 -->
+  <div class="question" data-q="17">
+    <div class="q-num">Question 17: Candidate Code</div>
+    <div class="q-text">Is your candidate code present on the paper?</div>
+    <div class="toggle-group">
+      <button class="toggle-btn" data-val="yes">Yes</button>
+      <button class="toggle-btn" data-val="no">No</button>
+    </div>
+    <div class="feedback" id="fb17"></div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary" id="summary" style="display:none;">
+    <h2>Your Submission Readiness Report</h2>
+    <div id="summary-content"></div>
+    <button class="reset-btn" id="exportBtn" style="margin-right:8px;background:rgba(74,158,255,0.15);border-color:var(--accent);color:var(--accent);">Export as PDF</button>
+    <button class="reset-btn" onclick="resetAll()">Start Over</button>
+  </div>
+</div>
+
+<script>
+  const state = {};
+  const totalQs = 17;
+
+  // Questions where "yes" is the BAD answer (e.g., name on paper breaks anonymity)
+  const invertedToggles = [16];
+
+  // --- Toggle handlers ---
+  document.querySelectorAll('.question').forEach(q => {
+    const qNum = parseInt(q.dataset.q);
+    q.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        q.querySelectorAll('.toggle-btn').forEach(b => {
+          b.classList.remove('active-yes', 'active-no');
+        });
+        const isInverted = invertedToggles.indexOf(qNum) !== -1;
+        const isGood = isInverted ? btn.dataset.val === 'no' : btn.dataset.val === 'yes';
+        btn.classList.add(isGood ? 'active-yes' : 'active-no');
+        state[qNum] = btn.dataset.val;
+        renderToggleFeedback(qNum, btn.dataset.val);
+        updateProgress();
+      });
+    });
+  });
+
+  function renderToggleFeedback(q, val) {
+    const fb = document.getElementById('fb' + q);
+    const isInverted = invertedToggles.indexOf(q) !== -1;
+    const isGood = isInverted ? val === 'no' : val === 'yes';
+    const messages = {
+      1: { yes: "Title is locked in. Examiners need to identify your film immediately.", no: "Add the film title to the top of your first page before submitting. This is required." },
+      2: { yes: "Time code is locked in. Examiners need to know exactly which extract you analyzed.", no: "Add the time code of your extract (e.g., 01:23:45 to 01:28:30) to the top of the page. This is required." },
+      3: { yes: "Word count is labeled. Required formatting is in place.", no: "Add a clearly labeled word count to the top of the page before submitting. This is required." },
+      12: { yes: "Font formatting meets IB requirements.", no: "Update your paper to a 12 point sans serif font (Arial, Calibri, Helvetica, etc.) before submitting." },
+      13: { yes: "Sources are listed. Make sure they are properly formatted and that each one is referenced in your analysis.", no: "Compile your full source list before submitting. Every source you reference in the body must appear here, and they should be carefully curated to add critical perspective (per Criterion A)." },
+      14: { yes: "In-text citations are in place. Every claim drawn from a source should point back to it. In-text citations are essential in any academic paper to give attribution to the original author and to show the examiner exactly where each idea came from.", no: "Add in-text citations throughout your TA. In-text citations are essential in any academic paper to give attribution to the original author of an idea or quotation. The IB requires that every source you reference in the body be cited at the point of reference, not only listed in the bibliography. Without in-text citations, sources don't earn credit toward your markbands." },
+      15: { yes: "Image captions are in place. Examiners can follow your visual evidence.", no: "Caption every image with a simple label (fig.1, fig.2, etc.) and reference it in your analysis. This is essential for replacing description with stills." },
+      16: { yes: "Your name is on the paper. Remove it before submitting. The IB requires anonymous submissions, so your name should not appear anywhere on the document. Your candidate code is the only identifier needed.", no: "Anonymity is preserved. Your name is correctly absent from the paper, as required by IB submission rules." },
+      17: { yes: "Candidate code is present. This is your unique IB identifier and is required for submission.", no: "Add your candidate code to the paper before submitting. The IB requires the candidate code as the identifier that links your work to your record (in place of your name)." }
+    };
+    fb.textContent = messages[q][val];
+    fb.className = 'feedback show ' + (isGood ? 'good' : 'bad');
+  }
+
+  // --- Word count handler ---
+  let wcTimer = null;
+  const wcInput = document.getElementById('wordcount');
+  const wcFb = document.getElementById('fb4');
+
+  const showWordCount = () => {
+    const n = parseInt(wcInput.value);
+    if (isNaN(n) || n <= 0) {
+      wcFb.classList.remove('show');
+      delete state[4];
+      updateProgress();
+      return;
+    }
+    state[4] = n;
+    let msg, type;
+    if (n < 1300) {
+      msg = `If you have more time, you should use it. ${n} words is well under the limit and your score will be self-penalizing.`;
+      type = 'bad';
+    } else if (n < 1600) {
+      msg = `${n} words may seem close, but to earn a 'good' or 'excellent' markband you will need to have more content. Is there more you can include?`;
+      type = 'warn';
+    } else if (n < 1730) {
+      msg = `${n} is great! You're almost there. Believe it or not though, every word counts. The closer you can get to 1750 the better. The reality is that many high scoring TA's are cut down to 1750 words because there is so much information that could be included.`;
+      type = 'warn';
+    } else if (n <= 1750) {
+      msg = `Great! If those are good words in a good order you should be in good shape!`;
+      type = 'good';
+    } else {
+      msg = `Woah woah woah! The limit is 1750! The first thing you'll want to get rid of is any amount of unnecessary description. Can that be replaced with film stills?`;
+      type = 'bad';
+    }
+    wcFb.textContent = msg;
+    wcFb.className = 'feedback show ' + type;
+    updateProgress();
+  };
+
+  wcInput.addEventListener('input', () => {
+    clearTimeout(wcTimer);
+    const raw = wcInput.value.replace(/\D/g, '');
+    wcFb.classList.remove('show');
+    if (raw.length === 0) {
+      delete state[4];
+      updateProgress();
+      return;
+    }
+    if (raw.length >= 4) {
+      // 4+ digits: reveal immediately
+      showWordCount();
+    } else if (raw.length === 3) {
+      // 3 digits: wait 1.5s for a possible 4th digit
+      wcTimer = setTimeout(showWordCount, 1500);
+    }
+    // 1-2 digits: stay hidden
+  });
+
+  // --- Slider handlers ---
+  const sliderConfig = {
+    5: {
+      labels: ['Limited', 'Adequate', 'Good', 'Excellent'],
+      messages: {
+        1: { type: 'bad', text: "Limited cultural context = 1-2 marks on Criterion A. Your understanding will read as superficial or irrelevant. Before submitting, anchor the film in its specific cultural moment in the time and place it was made.  For more clarity on cultural context see <a href=\"https://thinkib.net/film/page/59368/cultural-context\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline;\">this page</a>." },
+        2: { type: 'warn', text: "Adequate = 3-4 marks. Your understanding is attempted but underdeveloped. Push past surface-level context and engage with the meaningful complexity of the issues surrounding the film's cultural context. What tensions, contradictions, or layered conditions shaped this film? Make those connections explicit. For more clarity on cultural context see <a href=\"https://thinkib.net/film/page/59368/cultural-context\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline;\">this page</a>." },
+        3: { type: 'good', text: "Good = 5-6 marks. Your understanding is clear and appropriate. To push into 'excellent,' make sure your context is doing analytical work, not just sitting as background, but actively shaping how you read the extract. For more clarity on cultural context see <a href=\"https://thinkib.net/film/page/59368/cultural-context\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline;\">this page</a>." },
+        4: { type: 'good', text: "Excellent = 7-8 marks. Effective and highly appropriate. Verify that your context is also discerning and insightful;  not just accurate, but offering a critical perspective that is meaningful to understanding the complexity of the issues the film addresses. For more clarity on cultural context see <a href=\"https://thinkib.net/film/page/59368/cultural-context\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline;\">this page</a>." }
+      }
+    },
+    6: {
+      labels: ['Limited', 'Adequate', 'Good', 'Excellent'],
+      messages: {
+        1: { type: 'bad', text: "Limited sources = 1-2 marks on Criterion A. Little or no reference to relevant material. Before submitting, find at least 2-3 academic or reputable sources that directly speak to your film's cultural context, not just plot summaries or reviews." },
+        2: { type: 'warn', text: "Adequate sources = 3-4 marks. Some relevance, but underdeveloped. Audit your bibliography: is each source actually adding critical perspective, or is it filler? Replace weak sources with stronger scholarly ones." },
+        3: { type: 'good', text: "Good sources = 5-6 marks. Appropriate and relevant. To hit 'excellent,' your sources should add critical perspective to your analysis; they should change or sharpen your reading, not just confirm it." },
+        4: { type: 'good', text: "Excellent sources = 7-8 marks. Highly appropriate and adding critical perspective. Verify each citation is integrated into your argument, not just dropped in as decoration." }
+      }
+    },
+    7: {
+      labels: ['Limited', 'Adequate', 'Good', 'Excellent'],
+      messages: {
+        1: { type: 'bad', text: "Limited sources for meaning-making will hurt both Criterion B and C. Your sources should help you understand how the film creates meaning through its use of film language and elements. Before submitting, consider adding sources that analyze how cinematography, editing, sound, and mise-en-scène create meaning, such as Bordwell & Thompson's Film Art, or scholarly articles on your film's specific techniques." },
+        2: { type: 'warn', text: "Adequate sources are attempted but uneven. Your sources should help you understand how the film creates meaning through its use of film language and elements. Consider adding more meaningful sources that genuinely shaped your reading of specific techniques, and make sure you're using each one to support specific observations about meaning-making, not generic statements." },
+        3: { type: 'good', text: "Good sources are accurate and focused. Your sources are helping you understand how the film creates meaning through its use of film language and elements. To push higher, consider adding more meaningful sources where they could help you evaluate (not just describe) how a film element creates meaning, and make sure that interpretation shows up clearly in your analysis." },
+        4: { type: 'good', text: "Excellent sources are thorough and insightful. Your sources are deepening your understanding of how the film creates meaning through its use of film language and elements. Confirm each one is integrated with the film vocabulary you're using and that it sharpens rather than restates your analysis. Where a moment in the extract is still under-supported, consider adding one more meaningful source." }
+      }
+    },
+    8: {
+      labels: ['Lists', 'Outlines', 'Explains', 'Evaluates'],
+      messages: {
+        1: { type: 'bad', text: "Listing film elements = 1-3 marks on Criterion B. You're naming techniques without analyzing them. Before submitting, for every technique you mention, answer: WHY is this here? What meaning does it create?" },
+        2: { type: 'warn', text: "Outlining = 4-6 marks. Your work is more descriptive than analytical. Cut description and replace it with evaluation. Don't just say 'there is a close-up'; explain what the close-up DOES: what it forces the viewer to feel, notice, or interpret." },
+        3: { type: 'good', text: "Explaining = 7-9 marks. Accurate and using clear film vocabulary. To reach 'evaluates' (10-12), push from 'this technique creates X meaning' to 'this technique creates X meaning, AND here's why it's effective / what it competes with / what it reveals about the filmmaker's choices.'" },
+        4: { type: 'good', text: "Evaluating = 10-12 marks. Detailed, accurate, and relevant with compelling film vocabulary. At this level, you're showing how the film language is being used in complex or sophisticated ways to create meaning, where techniques layer, interact, or work against each other to produce effects a simpler treatment couldn't. Verify every claim is doing that evaluative work, not just describing, and that your vocabulary is precise (e.g., 'low-angle medium close-up' not just 'close-up')." }
+      }
+    },
+    9: {
+      labels: ['Limited', 'Adequate', 'Good', 'Excellent'],
+      messages: {
+        1: { type: 'bad', text: "Limited connection between film elements and cultural context = bottom of Criterion C. You're treating cultural context and film elements as separate sections. Before submitting, weave them together: how does THIS specific technique reflect THIS specific cultural moment?" },
+        2: { type: 'warn', text: "Adequate connection between film elements and cultural context. The link is attempted but underdeveloped. For every film element claim, ask: how does this technique reflect, respond to, or push against the cultural context I established?" },
+        3: { type: 'good', text: "Good connection between film elements and cultural context. Your links are clear and appropriate. To push higher, make these connections discerning; show how the film elements effectively demonstrate meaning towards the cultural context in a variety of ways." },
+        4: { type: 'good', text: "Excellent connection between film elements and cultural context. Effective and highly appropriate. Verify each connection is  genuinely illuminating how the film language is creating meaning towards the cultural context." }
+      }
+    },
+    10: {
+      labels: ['Limited', 'Adequate', 'Good', 'Excellent'],
+      messages: {
+        1: { type: 'bad', text: "Limited connection between film elements = bottom of Criterion C. You're analyzing each technique in isolation. Before submitting, look at how the elements work together: how does the editing interact with the sound? How does the lighting reinforce or complicate what the framing is doing?" },
+        2: { type: 'warn', text: "Adequate connection between film elements. You've started to link techniques, but unevenly. Identify the moments where two or more elements combine to create meaning and make those interactions explicit." },
+        3: { type: 'good', text: "Good connection between film elements. Your links between techniques are clear and appropriate. To push higher, show how elements amplify, complicate, or contradict each other to produce meaning that no single technique could create alone." },
+        4: { type: 'good', text: "Excellent connection between film elements. Effective and highly appropriate. Verify your synthesis is insightful: that you're showing how techniques interact in ways that genuinely deepen the meaning, not just running parallel." }
+      }
+    },
+    11: {
+      labels: ['Limited', 'Adequate', 'Good', 'Excellent'],
+      messages: {
+        1: { type: 'bad', text: "Limited connections between the film language in the extract and the film language in the rest of the film = bottom of Criterion C. You're analyzing the extract's film language as if it had no relationship to the rest of the film. Before submitting, ask: does the film language in the extract continue or break a pattern from the rest of the film? Is it the only instance of a particular technique, used to highlight something? Does it use a familiar image to call back to another moment? (Where appropriate, you may also draw connections to other film texts, but this is not required.)" },
+        2: { type: 'warn', text: "Adequate connections between the film language in the extract and the film language in the rest of the film. Connections are attempted but underdeveloped. Look at how the extract's film language sits within the larger film: is it continuing or breaking an established pattern, is it a singular use of a technique to draw attention, or is it echoing a familiar image to tie this moment to another? Make those relationships explicit. (Connections to other film texts are optional but can strengthen this if relevant.)" },
+        3: { type: 'good', text: "Good connections between the film language in the extract and the film language in the rest of the film. Your links to the wider film are clear and appropriate. To push higher, show specifically how the extract's film language is operating against the rest of the film, whether it's continuing or breaking a pattern, standing out as a unique use of a technique, or repeating a familiar image to connect this moment to another. (You may also draw on other film texts where appropriate, but it's not necessary.)" },
+        4: { type: 'good', text: "Excellent connections between the film language in the extract and the film language in the rest of the film. Effective and highly appropriate. Verify the links are insightful: that you're showing how the extract's film language continues, breaks, isolates, or echoes patterns elsewhere in the film to create meaning, not just noting that other moments exist. (Where it strengthens the analysis, connections to other film texts can be included, but this is not necessary.)" }
+      }
+    }
+  };
+
+  // Maps a raw slider value to a band (1-4) given the slider's max
+  function valueToBand(value, max) {
+    if (max === 12) {
+      if (value <= 3) return 1;
+      if (value <= 6) return 2;
+      if (value <= 9) return 3;
+      return 4;
+    }
+    // Default: max 8 → bands 1-2, 3-4, 5-6, 7-8
+    if (value <= 2) return 1;
+    if (value <= 4) return 2;
+    if (value <= 6) return 3;
+    return 4;
+  }
+
+  // Effective criterion calculations: source sliders feed into the main criterion's markband
+  function effectiveCriterionA() {
+    if (state[5] === undefined || state[6] === undefined) return null;
+    const blended = (state[5] + state[6]) / 2;
+    return {
+      score: Math.round(blended),
+      max: 8,
+      band: valueToBand(Math.round(blended), 8),
+      labels: ['Limited', 'Adequate', 'Good', 'Excellent']
+    };
+  }
+  function effectiveCriterionB() {
+    if (state[7] === undefined || state[8] === undefined) return null;
+    // Q7 is on 1-8, normalize to 1-12 to match Q8's scale, then average
+    const q7n = state[7] * 12 / 8;
+    const blended = (q7n + state[8]) / 2;
+    return {
+      score: Math.round(blended),
+      max: 12,
+      band: valueToBand(Math.round(blended), 12),
+      labels: ['Lists', 'Outlines', 'Explains', 'Evaluates']
+    };
+  }
+
+  function renderSliderFeedback(qNum) {
+    const slider = document.getElementById('s' + qNum);
+    const scoreEl = document.getElementById('s' + qNum + '-score');
+    const bandEl = document.getElementById('s' + qNum + '-band');
+    const fb = document.getElementById('fb' + qNum);
+    if (state[qNum] === undefined) return;
+    const v = state[qNum];
+    const max = parseInt(slider.max);
+    const band = valueToBand(v, max);
+    const cfg = sliderConfig[qNum];
+    const bandLabel = cfg.labels[band - 1];
+
+    scoreEl.textContent = `Score: ${v} / ${max}`;
+    bandEl.textContent = bandLabel;
+    bandEl.className = 'slider-band band-' + band;
+
+    let criterionNote = '';
+    if (qNum === 5 || qNum === 6) {
+      const eff = effectiveCriterionA();
+      if (eff) {
+        criterionNote = `<div style="margin-bottom:10px;padding:8px 10px;background:rgba(74,158,255,0.08);border:1px solid rgba(74,158,255,0.3);border-radius:6px;font-size:13px;color:var(--text);"><strong>Effective Criterion A markband:</strong> ${eff.labels[eff.band - 1]} (${eff.score} / ${eff.max}). Criterion A is judged on understanding and sources together.</div>`;
+      }
+    } else if (qNum === 7 || qNum === 8) {
+      const eff = effectiveCriterionB();
+      if (eff) {
+        criterionNote = `<div style="margin-bottom:10px;padding:8px 10px;background:rgba(74,158,255,0.08);border:1px solid rgba(74,158,255,0.3);border-radius:6px;font-size:13px;color:var(--text);"><strong>Effective Criterion B markband:</strong> ${eff.labels[eff.band - 1]} (${eff.score} / ${eff.max}). Criterion B is judged on evaluation and supporting sources together.</div>`;
+      }
+    }
+
+    fb.innerHTML = `<strong style="display:block;font-size:15px;margin-bottom:8px;">${bandLabel}</strong>${criterionNote}${cfg.messages[band].text}`;
+    fb.className = 'feedback show ' + cfg.messages[band].type;
+  }
+
+  [5, 6, 7, 8, 9, 10, 11].forEach(qNum => {
+    const slider = document.getElementById('s' + qNum);
+    const scoreEl = document.getElementById('s' + qNum + '-score');
+    const bandEl = document.getElementById('s' + qNum + '-band');
+    const fb = document.getElementById('fb' + qNum);
+    let debounceTimer = null;
+
+    const showResult = () => {
+      const v = parseInt(slider.value);
+      state[qNum] = v;
+      renderSliderFeedback(qNum);
+      // Re-render the paired slider so its effective Criterion note updates
+      const pair = { 5: 6, 6: 5, 7: 8, 8: 7 }[qNum];
+      if (pair && state[pair] !== undefined) renderSliderFeedback(pair);
+      updateProgress();
+    };
+
+    const onInput = () => {
+      const v = parseInt(slider.value);
+      const max = parseInt(slider.max);
+      scoreEl.textContent = `Score: ${v} / ${max}`;
+      bandEl.textContent = '';
+      bandEl.className = 'slider-band';
+      fb.classList.remove('show');
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(showResult, 400);
+    };
+
+    slider.addEventListener('input', onInput);
+    slider.addEventListener('change', () => {
+      clearTimeout(debounceTimer);
+      showResult();
+    });
+  });
+
+  // --- iframe auto-resize: tell parent window our content height ---
+  function postHeight() {
+    if (window.parent && window.parent !== window) {
+      try {
+        const h = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        );
+        window.parent.postMessage({ ibftaHeight: h }, '*');
+      } catch (e) {}
+    }
+  }
+  window.addEventListener('load', postHeight);
+  window.addEventListener('resize', postHeight);
+  // Re-post height after any state change (deferred)
+  let _heightTimer;
+  function schedulePostHeight() {
+    clearTimeout(_heightTimer);
+    _heightTimer = setTimeout(postHeight, 100);
+  }
+
+  // --- Progress + summary ---
+  function updateProgress() {
+    const answered = Object.keys(state).length;
+    const pct = (answered / totalQs) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+    if (answered === totalQs) renderSummary();
+    schedulePostHeight();
+  }
+
+  function renderSummary() {
+    const summary = document.getElementById('summary');
+    const content = document.getElementById('summary-content');
+    summary.style.display = 'block';
+
+    const formatting = [1, 2, 3, 12, 13, 14, 15, 16, 17];
+    const todoFormat = [];
+    const doneFormat = [];
+    const fmtLabels = {
+      1: "Film title at top",
+      2: "Time code at top",
+      3: "Word count labeled",
+      12: "12pt sans serif font",
+      13: "Sources listed",
+      14: "In-text citations",
+      15: "Image captions",
+      16: "Anonymity (no name on paper)",
+      17: "Candidate code present"
+    };
+    // Q16 is inverted: "no" is the correct answer (name should NOT be on paper)
+    formatting.forEach(q => {
+      const correctAnswer = q === 16 ? 'no' : 'yes';
+      if (state[q] === correctAnswer) doneFormat.push(fmtLabels[q]);
+      else todoFormat.push(fmtLabels[q]);
+    });
+
+    const wc = state[4];
+    let wcStatus;
+    if (wc >= 1730 && wc <= 1750) wcStatus = { text: `Word count: ${wc} (in target range)`, cls: 'done' };
+    else if (wc > 1750) wcStatus = { text: `Word count: ${wc} (OVER limit, must cut)`, cls: 'todo' };
+    else wcStatus = { text: `Word count: ${wc} (under target, add content)`, cls: 'todo' };
+
+    const rubricScores = [
+      { q: 5, max: 8, label: "Cultural context understanding (Criterion A)" },
+      { q: 6, max: 8, label: "Cultural context sources (Criterion A)" },
+      { q: 7, max: 8, label: "Sources for meaning-making (Criterion B/C)" },
+      { q: 8, max: 12, label: "Film elements evaluation (Criterion B)" },
+      { q: 9, max: 8, label: "Film elements ↔ cultural context (Criterion C)" },
+      { q: 10, max: 8, label: "Film elements ↔ each other (Criterion C)" },
+      { q: 11, max: 8, label: "Meaning in extract ↔ film text as a whole (Criterion C)" }
+    ];
+    const bandNames = ['Limited', 'Adequate', 'Good', 'Excellent'];
+    const band8Names = ['Limited', 'Adequate', 'Good', 'Excellent'];
+    const band12Names = ['Lists', 'Outlines', 'Explains', 'Evaluates'];
+
+    let html = '';
+
+    html += '<div class="summary-section"><h3>Formatting Checklist</h3><ul class="summary-list">';
+    doneFormat.forEach(t => html += `<li class="done">✓ ${t}</li>`);
+    todoFormat.forEach(t => html += `<li class="todo">✗ ${t}: fix before submitting</li>`);
+    html += `<li class="${wcStatus.cls}">${wcStatus.cls === 'done' ? '✓' : '✗'} ${wcStatus.text}</li>`;
+    html += '</ul></div>';
+
+    html += '<div class="summary-section"><h3>Self-Assessment vs. Rubric</h3><ul class="summary-list">';
+    rubricScores.forEach(rs => {
+      const v = state[rs.q];
+      const band = valueToBand(v, rs.max);
+      const labels = rs.q === 8 ? band12Names : band8Names;
+      const bandLabel = labels[band - 1];
+      const cls = band >= 3 ? 'done' : 'todo';
+      html += `<li class="${cls}">${rs.label}: <strong>${v} / ${rs.max}</strong> (${bandLabel})</li>`;
+    });
+    html += '</ul></div>';
+
+    // Rubric maxes: A=8, B=12, C=8 → total=28
+    // A: avg of Q5 (understanding) and Q6 (sources)
+    // B: avg of Q7 normalized to /12 (sources) and Q8 (evaluation)
+    // C: avg of Q9, Q10, Q11
+    const aScore = (state[5] + state[6]) / 2;
+    const bScore = ((state[7] * 12 / 8) + state[8]) / 2;
+    const cScore = (state[9] + state[10] + state[11]) / 3;
+    let total = aScore + bScore + cScore;
+    const sourcesWeak = state[6] <= 2 || state[7] <= 2;
+    if (sourcesWeak) total = Math.max(0, total - 3);
+
+    const wcLow = wc < 1600;
+    let scoreNote = `Based on your self-assessment, you're working towards <strong style="color:var(--accent);">${Math.round(total)} of a possible 28</strong> total marks across criteria A, B, and C.`;
+    if (sourcesWeak) {
+      scoreNote += ` <strong style="color:var(--bad);">A 3-point penalty has been applied</strong> because there is not enough evidence in the sources (at least one source slider is in the 'Limited' band). Examiners look for solid source evidence to credit understanding.`;
+    }
+    if (wcLow) {
+      scoreNote += ` <strong style="color:var(--warn);">Heads up:</strong> your word count is low, which will likely further reduce your effective score — the closer you get to 1750 words, the more room you have to actually demonstrate the score you're working towards.`;
+    } else {
+      scoreNote += ` This is the score you're working towards.`;
+    }
+    scoreNote += ` This is a self-estimate; your teacher's evaluation against actual evidence is what counts.`;
+    html += `<div class="summary-section"><h3>Rough Score Indicator</h3><p style="font-size:14px;color:var(--muted);margin:0;">${scoreNote}</p></div>`;
+
+    // Final verdict
+    const allFormat = todoFormat.length === 0;
+    const wcOk = wc >= 1730 && wc <= 1750;
+    const rubricStrong = rubricScores.every(rs => valueToBand(state[rs.q], rs.max) >= 3);
+
+    let verdict, verdictCls;
+    if (allFormat && wcOk && rubricStrong) {
+      verdict = "Ready to submit. Formatting is locked, word count is in range, and you've self-assessed at 'Good' or above across all criteria. Do one final read-through and turn it in.";
+      verdictCls = 'good';
+    } else if (allFormat && wcOk) {
+      verdict = "Formatting and word count are good. The content itself needs more work in the areas marked 'Limited' or 'Adequate' above. Don't submit yet; go back and strengthen those sections.";
+      verdictCls = 'warn';
+    } else {
+      verdict = "Not ready yet. Fix the formatting/word count items flagged above, and address any rubric areas where you self-assessed below 'Good.'";
+      verdictCls = 'bad';
+    }
+    html += `<div class="feedback show ${verdictCls}" style="margin-top:8px;">${verdict}</div>`;
+
+    content.innerHTML = html;
+  }
+
+  function exportToPDF() {
+    const fmtLabels = {
+      1: "Film title at top", 2: "Time code at top", 3: "Word count labeled",
+      12: "12pt sans serif font", 13: "Sources listed", 14: "In-text citations",
+      15: "Image captions", 16: "Anonymity (no name on paper)", 17: "Candidate code present"
+    };
+    const rubricInfo = {
+      5: { label: "Cultural context understanding (Criterion A)", max: 8 },
+      6: { label: "Cultural context sources (Criterion A)", max: 8 },
+      7: { label: "Sources for meaning-making (Criterion B/C)", max: 8 },
+      8: { label: "Film elements evaluation (Criterion B)", max: 12 },
+      9: { label: "Film elements vs cultural context (Criterion C)", max: 8 },
+      10: { label: "Film elements vs each other (Criterion C)", max: 8 },
+      11: { label: "Meaning in extract vs film as a whole (Criterion C)", max: 8 }
+    };
+    const band8 = ['Limited', 'Adequate', 'Good', 'Excellent'];
+    const band12 = ['Lists', 'Outlines', 'Explains', 'Evaluates'];
+    const today = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+    let body = '';
+    body += '<h1>IB Film Textual Analysis: Final Check</h1>';
+    body += `<p class="meta">Generated ${today}</p>`;
+
+    body += '<h2>Formatting Checklist</h2><ul>';
+    [1,2,3,12,13,14,15,16,17].forEach(q => {
+      const correct = q === 16 ? 'no' : 'yes';
+      const ok = state[q] === correct;
+      body += `<li class="${ok ? 'ok' : 'bad'}">${ok ? '✓' : '✗'} ${fmtLabels[q]} — ${state[q] === 'yes' ? 'Yes' : 'No'}</li>`;
+    });
+    const wc = state[4];
+    let wcText;
+    if (wc >= 1730 && wc <= 1750) wcText = `✓ Word count: ${wc} (in target range)`;
+    else if (wc > 1750) wcText = `✗ Word count: ${wc} (over limit, must cut)`;
+    else wcText = `✗ Word count: ${wc} (under target, add content)`;
+    body += `<li class="${wc >= 1730 && wc <= 1750 ? 'ok' : 'bad'}">${wcText}</li>`;
+    body += '</ul>';
+
+    body += '<h2>Self-Assessment vs. Rubric</h2><ul>';
+    Object.keys(rubricInfo).forEach(q => {
+      const info = rubricInfo[q];
+      const v = state[q];
+      const band = valueToBand(v, info.max);
+      const labels = info.max === 12 ? band12 : band8;
+      const ok = band >= 3;
+      body += `<li class="${ok ? 'ok' : 'bad'}"><strong>${info.label}:</strong> ${v} / ${info.max} (${labels[band - 1]})</li>`;
+    });
+    body += '</ul>';
+
+    const aScore = (state[5] + state[6]) / 2;
+    const bScore = ((state[7] * 12 / 8) + state[8]) / 2;
+    const cScore = (state[9] + state[10] + state[11]) / 3;
+    let total = aScore + bScore + cScore;
+    const sourcesWeak = state[6] <= 2 || state[7] <= 2;
+    if (sourcesWeak) total = Math.max(0, total - 3);
+    const wcLow = wc < 1600;
+    let scoreLine = `Based on self-assessment, working towards <strong>${Math.round(total)} of a possible 28</strong> marks across criteria A, B, and C.`;
+    if (sourcesWeak) scoreLine += ' A 3-point penalty has been applied because there is not enough evidence in the sources.';
+    if (wcLow) scoreLine += ' Word count is low, which may further reduce the effective score.';
+    scoreLine += ' This is the score you are working towards. The teacher\'s evaluation against actual evidence is what counts.';
+    body += `<h2>Rough Score Indicator</h2><p>${scoreLine}</p>`;
+
+    const allFormatOk = [1,2,3,12,13,14,15,17].every(q => state[q] === 'yes') && state[16] === 'no';
+    const wcOk = wc >= 1730 && wc <= 1750;
+    const rubricStrong = Object.keys(rubricInfo).every(q => valueToBand(state[q], rubricInfo[q].max) >= 3);
+    let verdict;
+    if (allFormatOk && wcOk && rubricStrong) {
+      verdict = "Ready to submit. Formatting is locked, word count is in range, and self-assessed at 'Good' or above across all criteria.";
+    } else if (allFormatOk && wcOk) {
+      verdict = "Formatting and word count are good. The content itself needs more work in the areas marked 'Limited' or 'Adequate' above.";
+    } else {
+      verdict = "Not ready yet. Fix the formatting/word count items flagged above, and address any rubric areas self-assessed below 'Good.'";
+    }
+    body += `<h2>Overall Verdict</h2><p class="verdict">${verdict}</p>`;
+
+    const docHTML = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>IB Film TA Final Check</title>
+<style>
+  body { font-family: Helvetica, Arial, sans-serif; color: #1a2027; max-width: 720px; margin: 24px auto; padding: 0 20px; line-height: 1.5; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 15px; margin: 24px 0 8px; padding-bottom: 4px; border-bottom: 1px solid #ccc; }
+  p.meta { color: #666; font-size: 12px; margin: 0 0 16px; }
+  ul { padding-left: 20px; margin: 0; }
+  li { margin-bottom: 6px; font-size: 13px; }
+  li.ok { color: #166534; }
+  li.bad { color: #991b1b; }
+  p { font-size: 13px; }
+  p.verdict { padding: 10px 12px; background: #f3f4f6; border-radius: 6px; }
+  @media print { body { margin: 0; } }
+</style></head><body>${body}</body></html>`;
+
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;';
+    document.body.appendChild(iframe);
+    const idoc = iframe.contentDocument || iframe.contentWindow.document;
+    idoc.open();
+    idoc.write(docHTML);
+    idoc.close();
+    iframe.onload = () => {
+      try {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+      } catch (e) {}
+      setTimeout(() => { if (iframe.parentNode) iframe.parentNode.removeChild(iframe); }, 1000);
+    };
+  }
+
+  document.getElementById('exportBtn').addEventListener('click', exportToPDF);
+
+  function resetAll() {
+    Object.keys(state).forEach(k => delete state[k]);
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active-yes', 'active-no'));
+    document.querySelectorAll('.feedback').forEach(f => { f.classList.remove('show'); f.textContent = ''; });
+    document.getElementById('wordcount').value = '';
+    [5,6,7,8,9,10,11].forEach(q => {
+      const s = document.getElementById('s' + q);
+      const max = parseInt(s.max);
+      const defaultV = max === 12 ? 6 : 4;
+      s.value = defaultV;
+      document.getElementById('s' + q + '-score').textContent = `Score: ${defaultV} / ${max}`;
+      const band = valueToBand(defaultV, max);
+      const bandEl = document.getElementById('s' + q + '-band');
+      bandEl.textContent = sliderConfig[q].labels[band - 1];
+      bandEl.className = 'slider-band band-' + band;
+    });
+    document.getElementById('summary').style.display = 'none';
+    document.getElementById('progress').style.width = '0%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
